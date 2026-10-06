@@ -44,6 +44,28 @@ erDiagram
 
 One equipment has many bookings (1:N). Full DDL: [schema.sql](schema.sql).
 
+## How the overlap check works
+
+Two time ranges `[A.start, A.end)` and `[B.start, B.end)` overlap exactly when `A.start < B.end AND B.start < A.end`.
+
+| Existing 09:00–11:00 vs new | Overlap? | Result |
+|---|---|---|
+| 10:00–12:00 (partial) | yes | 409 |
+| 08:00–12:00 (covers) | yes | 409 |
+| 09:30–10:30 (inside) | yes | 409 |
+| 11:00–12:00 (touching) | no (`11:00 < 11:00` is false) | 201 |
+| other equipment, same time | not compared | 201 |
+
+- **Create:** compare against all bookings of the same `equipmentId`.
+- **Update (PATCH):** merge the patch onto the stored booking, then run the same check but exclude the booking itself (`id != ?`), otherwise a booking would always conflict with its own old time.
+- The check runs twice: first a `SELECT` to return a clear 409 message, then again inside the `INSERT … WHERE NOT EXISTS` / `UPDATE … AND NOT EXISTS` statement, so check-and-write is one atomic SQL statement and two concurrent requests cannot both succeed.
+
+## Known limitations
+
+- No authentication: anyone can edit or delete any booking.
+- No pagination on `GET /bookings`.
+- Equipment cannot be created/edited through the API (seed data only).
+
 ## Assumptions
 
 1. No starter repository was provided, so the project was created from scratch with the course stack (Hono + local D1).

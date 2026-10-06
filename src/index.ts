@@ -44,13 +44,19 @@ const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,3})?)?(Z|[+-]\d{2}:
 function parseTime(v: unknown): string | null {
   if (typeof v !== 'string' || !ISO_RE.test(v)) return null
   const d = new Date(v)
-  return Number.isNaN(d.getTime()) ? null : d.toISOString()
+  if (Number.isNaN(d.getTime())) return null
+  // JS Date silently rolls over impossible dates (2026-02-30 -> 2026-03-02), so check the calendar date is real
+  const [y, m, day] = v.slice(0, 10).split('-').map(Number)
+  const cal = new Date(Date.UTC(y, m - 1, day))
+  if (cal.getUTCFullYear() !== y || cal.getUTCMonth() !== m - 1 || cal.getUTCDate() !== day) return null
+  return d.toISOString()
 }
 
 const FIELDS = ['equipmentId', 'borrowerName', 'startAt', 'endAt', 'purpose'] as const
 
 // partial = true for PATCH (only validate fields that are present)
 function validate(body: unknown, partial: boolean): { error: string } | { data: Partial<BookingInput> } {
+  if (body === INVALID_JSON) return { error: 'Request body is not valid JSON' }
   if (typeof body !== 'object' || body === null || Array.isArray(body)) {
     return { error: 'Request body must be a JSON object' }
   }
@@ -106,13 +112,19 @@ async function checkRules(db: D1Database, b: BookingInput, excludeId: string | n
   return null
 }
 
+const INVALID_JSON = Symbol('invalid-json')
+
 async function readJson(c: { req: { json: () => Promise<unknown> } }): Promise<unknown> {
   try {
     return await c.req.json()
   } catch {
-    return undefined // invalid JSON -> validate() rejects it with 400
+    return INVALID_JSON // validate() turns this into a clear 400 message
   }
 }
+
+// Overlap condition reused inside INSERT/UPDATE so check + write happen in ONE statement (no race window)
+const NO_OVERLAP = 'NOT EXISTS (SELECT 1 FROM bookings WHERE equipment_id = ? AND start_at < ? AND end_at > ? AND id != ?)'
+const CONFLICT_MSG = 'Equipment is already booked in this time range'
 
 // ---------- routes ----------
 
@@ -148,11 +160,14 @@ app.post('/bookings', async (c) => {
 
   const id = `bk-${crypto.randomUUID()}`
   const now = new Date().toISOString()
-  await c.env.DB.prepare(
-    'INSERT INTO bookings (id, equipment_id, borrower_name, start_at, end_at, purpose, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+  // INSERT ... SELECT ... WHERE NOT EXISTS: a booking created by a concurrent request after checkRules() still blocks this insert
+  const res = await c.env.DB.prepare(
+    `INSERT INTO bookings (id, equipment_id, borrower_name, start_at, end_at, purpose, created_at, updated_at)
+     SELECT ?, ?, ?, ?, ?, ?, ?, ? WHERE ${NO_OVERLAP}`
   )
-    .bind(id, b.equipmentId, b.borrowerName, b.startAt, b.endAt, b.purpose, now, now)
+    .bind(id, b.equipmentId, b.borrowerName, b.startAt, b.endAt, b.purpose, now, now, b.equipmentId, b.endAt, b.startAt, id)
     .run()
+  if (res.meta.changes === 0) return c.json({ error: CONFLICT_MSG }, 409)
 
   const row = await c.env.DB.prepare('SELECT * FROM bookings WHERE id = ?').bind(id).first<BookingRow>()
   return c.json(toBooking(row!), 201)
@@ -178,11 +193,16 @@ app.patch('/bookings/:id', async (c) => {
   const fail = await checkRules(c.env.DB, merged, id)
   if (fail) return c.json({ error: fail[1] }, fail[0])
 
-  await c.env.DB.prepare(
-    'UPDATE bookings SET equipment_id = ?, borrower_name = ?, start_at = ?, end_at = ?, purpose = ?, updated_at = ? WHERE id = ?'
+  const res = await c.env.DB.prepare(
+    `UPDATE bookings SET equipment_id = ?, borrower_name = ?, start_at = ?, end_at = ?, purpose = ?, updated_at = ?
+     WHERE id = ? AND ${NO_OVERLAP}`
   )
-    .bind(merged.equipmentId, merged.borrowerName, merged.startAt, merged.endAt, merged.purpose, new Date().toISOString(), id)
+    .bind(
+      merged.equipmentId, merged.borrowerName, merged.startAt, merged.endAt, merged.purpose, new Date().toISOString(), id,
+      merged.equipmentId, merged.endAt, merged.startAt, id
+    )
     .run()
+  if (res.meta.changes === 0) return c.json({ error: CONFLICT_MSG }, 409)
 
   const row = await c.env.DB.prepare('SELECT * FROM bookings WHERE id = ?').bind(id).first<BookingRow>()
   return c.json(toBooking(row!))

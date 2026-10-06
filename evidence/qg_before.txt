@@ -1,0 +1,17 @@
+[A] invalid JSON:
+{"error":"Request body must be a JSON object"} -> 400
+[B] impossible date 2026-02-30:
+{"id":"bk-209c41e0-eef2-4fe0-9c4c-c5e2826d50a5","equipmentId":"eq-2","borrowerName":"A","startAt":"2026-03-02T09:00:00.000Z","endAt":"2026-03-02T10:00:00.000Z","purpose":"x","createdAt":"2026-10-06T07:08:11.368Z","updatedAt":"2026-10-06T07:08:11.368Z"} -> 201
+[C] 10 concurrent POSTs for the same eq-3 slot (status codes):
+201
+409
+409
+409
+409
+409
+409
+409
+409
+409
+[C] eq-3 bookings stored for that slot:
+1
