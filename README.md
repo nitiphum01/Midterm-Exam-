@@ -14,6 +14,8 @@ npm run db:init     # create tables + seed equipment in local D1 (safe to re-run
 npm run dev         # starts http://localhost:8787
 ```
 
+On Windows PowerShell, if `npm`/`npx` are blocked by the script execution policy, use `npm.cmd` / `npx.cmd` instead. Tests use bash (Git Bash).
+
 Quick check:
 
 ```bash

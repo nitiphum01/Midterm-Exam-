@@ -2,6 +2,8 @@
 
 **Tool:** Claude Code (Claude Opus 5.5), used as a development assistant.
 
+**Transparency note:** The AI wrote most of the code, docs, and test script, and ran the verification commands (tsc, wrangler, curl) at my request. I decided the stack and the key design choices, approved every step before it was done, reviewed the outputs and evidence files, and re-checked the main routes, SQL queries, and overlap logic myself so that I can explain them.
+
 | # | Prompt (summary) | What I used | How I verified it |
 |---|---|---|---|
 | 1 | "Read the exam brief and rubric, list the rules, tools, and a step-by-step plan; wait for my approval." | The step plan (Step 0–5) and the decision list (stack, 400 vs 404 for unknown `equipmentId`, booking id format). | Checked the plan against `exam_brief_en.md` and `rubric_en.md` myself; I chose Hono + local D1 and 400 for unknown `equipmentId`. |
