@@ -3,7 +3,6 @@
 TypeScript + Hono on Cloudflare Workers runtime, with local D1 (SQLite) via `wrangler`.
 
 **Base API URL used for testing:**
-- Local: `http://localhost:8787/api`
 - Deployed (Cloudflare Workers + remote D1): `https://equipment-booking-api.nitiphumhon.workers.dev/api`
 
 ## Run
