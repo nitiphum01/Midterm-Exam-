@@ -6,7 +6,7 @@
     {
       "binding": "DB",
       "database_name": "booking-db",
-      "database_id": "local-booking-db"
+      "database_id": "b90ab75a-ce89-49cc-9464-f6beacad1706"
     }
   ],
   "dev": { "port": 8787 }

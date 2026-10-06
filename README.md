@@ -2,7 +2,9 @@
 
 TypeScript + Hono on Cloudflare Workers runtime, with local D1 (SQLite) via `wrangler`.
 
-**Base API URL used for testing:** `http://localhost:8787/api`
+**Base API URL used for testing:**
+- Local: `http://localhost:8787/api`
+- Deployed (Cloudflare Workers + remote D1): `https://equipment-booking-api.nitiphumhon.workers.dev/api`
 
 ## Run
 
@@ -16,6 +18,13 @@ Quick check:
 
 ```bash
 curl -s http://localhost:8787/api/equipment
+```
+
+Deploy to Cloudflare (after `npx wrangler login`; D1 `booking-db` already created, id in `wrangler.jsonc`):
+
+```bash
+npm run db:init:remote   # create tables + seed equipment in remote D1
+npm run deploy
 ```
 
 Contract: see [API_CONTRACT.md](API_CONTRACT.md).
