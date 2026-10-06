@@ -1,0 +1,13 @@
+{
+  "name": "equipment-booking-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "booking-db",
+      "database_id": "local-booking-db"
+    }
+  ],
+  "dev": { "port": 8787 }
+}

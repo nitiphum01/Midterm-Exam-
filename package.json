@@ -1,0 +1,22 @@
+{
+  "name": "midterm",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "wrangler dev",
+    "typecheck": "tsc",
+    "db:init": "wrangler d1 execute DB --local --file=schema.sql"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "hono": "^4.13.13"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261006.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.147.0"
+  }
+}
