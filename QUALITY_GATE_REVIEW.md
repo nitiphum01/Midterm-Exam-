@@ -23,4 +23,4 @@
 | 7 Delivery Quality | Contract, schema/ERD, evidence present. |
 | 8 You Own It | See `AI_LOG.md`. |
 
-**Submission decision:** REWORK → after these fixes: READY once the full curl evidence (Step 4) is recorded.
+**Submission decision:** REWORK → after these fixes and Step 4 evidence (18/18 curl cases pass on local and deployed, see `evidence/`): **READY**.

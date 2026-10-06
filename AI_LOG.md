@@ -8,6 +8,8 @@
 | 2 | "Set up the project (Step 0)." | `wrangler.jsonc`, `tsconfig.json`, npm scripts. | Ran `wrangler dev`, `GET /api/health` returned `{"status":"ok","db":true}`; `npx tsc` passed. |
 | 3 | "Do Step 1–2: contract, schema/ERD, CRUD." | `schema.sql`, `src/index.ts`, `API_CONTRACT.md`, `README.md`. | Ran 12 curl cases (201/200/204/400/404/409); read each route and query; confirmed every SQL uses `.bind()` (no string concatenation of request data). |
 | 4 | "Read quality_gate.md and curl_test_guide.md, then do Step 3." | Findings and fixes 1–4 in `QUALITY_GATE_REVIEW.md`. | Ran the same curl script against v1 (`git stash`) and the fixed code, saved to `evidence/qg_before.txt` / `qg_after.txt`. |
+| 5 | "Deploy to Cloudflare (remote D1)." | `wrangler d1 create`, remote schema load, `wrangler deploy`. | Called the live URL: 200/201/409/204/404 as expected; removed the smoke-test booking. |
+| 6 | "Do Step 4: curl tests + evidence." | `tests/curl_tests.sh` (guide cases G1–G9 + extra E1–E9). | Ran it on local and deployed: 18/18 pass. Noticed the first version logged commands without quotes (not copy-pasteable) and had it fixed before saving evidence. |
 
 ## What I did not accept blindly
 

@@ -53,6 +53,36 @@ erDiagram
 
 One equipment has many bookings (1:N). Full DDL: [schema.sql](schema.sql).
 
+## Testing (curl)
+
+```bash
+bash tests/curl_tests.sh http://localhost:8787/api evidence/local_results.md
+bash tests/curl_tests.sh https://equipment-booking-api.nitiphumhon.workers.dev/api evidence/deployed_results.md
+```
+
+Cases G1–G9 follow `curl_test_guide.md`; E1–E9 are extra edge/error cases. Full requests and responses: [evidence/local_results.md](evidence/local_results.md), [evidence/deployed_results.md](evidence/deployed_results.md). Result: **18/18 passed on both local and deployed**.
+
+| Case | Description | Expected |
+|---|---|---:|
+| G1 | List equipment | 200 |
+| G2 | List bookings | 200 |
+| G3 | Create a booking | 201 |
+| G4 | Get one booking | 200 |
+| G5 | Update a booking (PATCH) | 200 |
+| G6 | Invalid time range (start after end) | 400 |
+| G7 | Overlapping booking (POST) | 409 |
+| G8 | Missing booking | 404 |
+| E1 | Back-to-back booking allowed | 201 |
+| E2 | Overlap via PATCH | 409 |
+| E3 | Missing required fields | 400 |
+| E4 | `equipmentId` does not exist | 400 |
+| E5 | Malformed JSON | 400 |
+| E6 | Impossible date (Feb 30) | 400 |
+| E7 | PATCH missing booking | 404 |
+| G9 | Delete a booking | 204 |
+| E8 | Delete same booking again | 404 |
+| E9 | Clean up second booking | 204 |
+
 ## How the overlap check works
 
 Two time ranges `[A.start, A.end)` and `[B.start, B.end)` overlap exactly when `A.start < B.end AND B.start < A.end`.
