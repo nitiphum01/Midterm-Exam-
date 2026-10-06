@@ -1,7 +1,7 @@
 # curl test evidence
 
 - Base URL: `http://localhost:8787/api`
-- Run at: 2026-10-06T07:26:42Z
+- Run at: 2026-10-06T07:51:51Z
 
 ## G1 — List equipment
 
@@ -50,7 +50,7 @@ HTTP/1.1 201 Created
 Content-Length: 282
 Content-Type: application/json
 
-{"id":"bk-eb308a4a-c707-42e7-b11b-9562b9b52373","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation","createdAt":"2026-10-06T07:26:43.961Z","updatedAt":"2026-10-06T07:26:43.961Z"}
+{"id":"bk-4852418b-82de-4d56-a99b-6265678e95a3","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation","createdAt":"2026-10-06T07:51:53.053Z","updatedAt":"2026-10-06T07:51:53.053Z"}
 
 ```
 
@@ -59,7 +59,7 @@ Content-Type: application/json
 Expected `200`, got `200` → **PASS**
 
 ```bash
-curl -i 'http://localhost:8787/api/bookings/bk-eb308a4a-c707-42e7-b11b-9562b9b52373'
+curl -i 'http://localhost:8787/api/bookings/bk-4852418b-82de-4d56-a99b-6265678e95a3'
 ```
 
 ```http
@@ -67,7 +67,7 @@ HTTP/1.1 200 OK
 Content-Length: 282
 Content-Type: application/json
 
-{"id":"bk-eb308a4a-c707-42e7-b11b-9562b9b52373","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation","createdAt":"2026-10-06T07:26:43.961Z","updatedAt":"2026-10-06T07:26:43.961Z"}
+{"id":"bk-4852418b-82de-4d56-a99b-6265678e95a3","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation","createdAt":"2026-10-06T07:51:53.053Z","updatedAt":"2026-10-06T07:51:53.053Z"}
 
 ```
 
@@ -76,7 +76,7 @@ Content-Type: application/json
 Expected `200`, got `200` → **PASS**
 
 ```bash
-curl -i '-X' 'PATCH' 'http://localhost:8787/api/bookings/bk-eb308a4a-c707-42e7-b11b-9562b9b52373' '-H' 'Content-Type: application/json' '-d' '{"equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation"}'
+curl -i '-X' 'PATCH' 'http://localhost:8787/api/bookings/bk-4852418b-82de-4d56-a99b-6265678e95a3' '-H' 'Content-Type: application/json' '-d' '{"equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation"}'
 ```
 
 ```http
@@ -84,7 +84,7 @@ HTTP/1.1 200 OK
 Content-Length: 290
 Content-Type: application/json
 
-{"id":"bk-eb308a4a-c707-42e7-b11b-9562b9b52373","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation","createdAt":"2026-10-06T07:26:43.961Z","updatedAt":"2026-10-06T07:26:45.190Z"}
+{"id":"bk-4852418b-82de-4d56-a99b-6265678e95a3","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation","createdAt":"2026-10-06T07:51:53.053Z","updatedAt":"2026-10-06T07:51:54.377Z"}
 
 ```
 
@@ -118,7 +118,7 @@ HTTP/1.1 409 Conflict
 Content-Length: 115
 Content-Type: application/json
 
-{"error":"Equipment 'eq-1' is already booked in this time range (booking bk-eb308a4a-c707-42e7-b11b-9562b9b52373)"}
+{"error":"Equipment 'eq-1' is already booked in this time range (booking bk-4852418b-82de-4d56-a99b-6265678e95a3)"}
 
 ```
 
@@ -152,7 +152,7 @@ HTTP/1.1 201 Created
 Content-Length: 275
 Content-Type: application/json
 
-{"id":"bk-fa87f689-7be9-4000-8e23-190551703d18","equipmentId":"eq-1","borrowerName":"Suda Dee","startAt":"2026-10-20T14:00:00.000Z","endAt":"2026-10-20T15:00:00.000Z","purpose":"Back-to-back test","createdAt":"2026-10-06T07:26:47.309Z","updatedAt":"2026-10-06T07:26:47.309Z"}
+{"id":"bk-bec7146c-c5ae-425b-81b9-833d1088f86d","equipmentId":"eq-1","borrowerName":"Suda Dee","startAt":"2026-10-20T14:00:00.000Z","endAt":"2026-10-20T15:00:00.000Z","purpose":"Back-to-back test","createdAt":"2026-10-06T07:51:56.521Z","updatedAt":"2026-10-06T07:51:56.521Z"}
 
 ```
 
@@ -161,7 +161,7 @@ Content-Type: application/json
 Expected `409`, got `409` → **PASS**
 
 ```bash
-curl -i '-X' 'PATCH' 'http://localhost:8787/api/bookings/bk-fa87f689-7be9-4000-8e23-190551703d18' '-H' 'Content-Type: application/json' '-d' '{"startAt":"2026-10-20T13:00:00.000Z"}'
+curl -i '-X' 'PATCH' 'http://localhost:8787/api/bookings/bk-bec7146c-c5ae-425b-81b9-833d1088f86d' '-H' 'Content-Type: application/json' '-d' '{"startAt":"2026-10-20T13:00:00.000Z"}'
 ```
 
 ```http
@@ -169,7 +169,7 @@ HTTP/1.1 409 Conflict
 Content-Length: 115
 Content-Type: application/json
 
-{"error":"Equipment 'eq-1' is already booked in this time range (booking bk-eb308a4a-c707-42e7-b11b-9562b9b52373)"}
+{"error":"Equipment 'eq-1' is already booked in this time range (booking bk-4852418b-82de-4d56-a99b-6265678e95a3)"}
 
 ```
 
@@ -263,7 +263,7 @@ Content-Type: application/json
 Expected `204`, got `204` → **PASS**
 
 ```bash
-curl -i '-X' 'DELETE' 'http://localhost:8787/api/bookings/bk-eb308a4a-c707-42e7-b11b-9562b9b52373'
+curl -i '-X' 'DELETE' 'http://localhost:8787/api/bookings/bk-4852418b-82de-4d56-a99b-6265678e95a3'
 ```
 
 ```http
@@ -277,7 +277,7 @@ HTTP/1.1 204 No Content
 Expected `404`, got `404` → **PASS**
 
 ```bash
-curl -i '-X' 'DELETE' 'http://localhost:8787/api/bookings/bk-eb308a4a-c707-42e7-b11b-9562b9b52373'
+curl -i '-X' 'DELETE' 'http://localhost:8787/api/bookings/bk-4852418b-82de-4d56-a99b-6265678e95a3'
 ```
 
 ```http
@@ -294,7 +294,7 @@ Content-Type: application/json
 Expected `204`, got `204` → **PASS**
 
 ```bash
-curl -i '-X' 'DELETE' 'http://localhost:8787/api/bookings/bk-fa87f689-7be9-4000-8e23-190551703d18'
+curl -i '-X' 'DELETE' 'http://localhost:8787/api/bookings/bk-bec7146c-c5ae-425b-81b9-833d1088f86d'
 ```
 
 ```http

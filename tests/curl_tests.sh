@@ -41,14 +41,24 @@ run_case() {
     echo
   } >> "$OUT"
   LAST_BODY=$(tr -d '\r' < "$TMP" | tail -1)
+  LAST_STATUS="$status"
 }
+
+# id of the booking just created — only from a 201 (a 409 message also contains a "bk-..." id of the OTHER booking)
+created_id() { [ "$LAST_STATUS" = 201 ] && echo "$LAST_BODY" | grep -o '"id":"bk-[0-9a-f-]*"' | grep -o 'bk-[0-9a-f-]*'; }
 
 # ---------- cases from curl_test_guide.md ----------
 run_case G1 "List equipment" 200 "$BASE_URL/equipment"
 run_case G2 "List bookings" 200 "$BASE_URL/bookings"
 run_case G3 "Create a booking" 201 -X POST "$BASE_URL/bookings" -H "$H" \
   -d '{"equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation"}'
-BOOKING_ID=$(echo "$LAST_BODY" | grep -o 'bk-[0-9a-f-]*' | head -1)
+BOOKING_ID=$(created_id)
+if [ -z "$BOOKING_ID" ]; then
+  # Without an id, G4/G5/G9 would call /bookings/ and could pass by accident — stop instead.
+  echo "**STOPPED:** G3 did not create a booking (is a 2026-10-20 eq-1 booking left from an earlier run? delete it and re-run)." >> "$OUT"
+  echo "G3 failed (got $(echo "$LAST_BODY")) — stopping. Delete leftover bookings and re-run." >&2
+  exit 1
+fi
 run_case G4 "Get one booking" 200 "$BASE_URL/bookings/$BOOKING_ID"
 run_case G5 "Update a booking (PATCH)" 200 -X PATCH "$BASE_URL/bookings/$BOOKING_ID" -H "$H" \
   -d '{"equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation"}'
@@ -61,7 +71,7 @@ run_case G8 "Missing booking" 404 "$BASE_URL/bookings/not-found"
 # ---------- extra cases ----------
 run_case E1 "Back-to-back booking allowed (starts when previous ends)" 201 -X POST "$BASE_URL/bookings" -H "$H" \
   -d '{"equipmentId":"eq-1","borrowerName":"Suda Dee","startAt":"2026-10-20T14:00:00.000Z","endAt":"2026-10-20T15:00:00.000Z","purpose":"Back-to-back test"}'
-SECOND_ID=$(echo "$LAST_BODY" | grep -o 'bk-[0-9a-f-]*' | head -1)
+SECOND_ID=$(created_id)
 run_case E2 "Overlapping booking (PATCH into another booking's time)" 409 -X PATCH "$BASE_URL/bookings/$SECOND_ID" -H "$H" \
   -d '{"startAt":"2026-10-20T13:00:00.000Z"}'
 run_case E3 "Missing required fields" 400 -X POST "$BASE_URL/bookings" -H "$H" \

@@ -1,7 +1,7 @@
 # curl test evidence
 
 - Base URL: `https://equipment-booking-api.nitiphumhon.workers.dev/api`
-- Run at: 2026-10-06T07:26:53Z
+- Run at: 2026-10-06T07:51:18Z
 
 ## G1 — List equipment
 
@@ -50,7 +50,7 @@ HTTP/1.1 201 Created
 Content-Type: application/json
 Content-Length: 282
 
-{"id":"bk-a07144dc-6241-4e7f-886f-19056a4a251e","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation","createdAt":"2026-10-06T07:26:56.831Z","updatedAt":"2026-10-06T07:26:56.831Z"}
+{"id":"bk-e40cbdc4-2f7c-440e-9012-c293db659ba3","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation","createdAt":"2026-10-06T07:51:21.829Z","updatedAt":"2026-10-06T07:51:21.829Z"}
 
 ```
 
@@ -59,7 +59,7 @@ Content-Length: 282
 Expected `200`, got `200` → **PASS**
 
 ```bash
-curl -i 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-a07144dc-6241-4e7f-886f-19056a4a251e'
+curl -i 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-e40cbdc4-2f7c-440e-9012-c293db659ba3'
 ```
 
 ```http
@@ -67,7 +67,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 282
 
-{"id":"bk-a07144dc-6241-4e7f-886f-19056a4a251e","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation","createdAt":"2026-10-06T07:26:56.831Z","updatedAt":"2026-10-06T07:26:56.831Z"}
+{"id":"bk-e40cbdc4-2f7c-440e-9012-c293db659ba3","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T09:00:00.000Z","endAt":"2026-10-20T11:00:00.000Z","purpose":"Class presentation","createdAt":"2026-10-06T07:51:21.829Z","updatedAt":"2026-10-06T07:51:21.829Z"}
 
 ```
 
@@ -76,7 +76,7 @@ Content-Length: 282
 Expected `200`, got `200` → **PASS**
 
 ```bash
-curl -i '-X' 'PATCH' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-a07144dc-6241-4e7f-886f-19056a4a251e' '-H' 'Content-Type: application/json' '-d' '{"equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation"}'
+curl -i '-X' 'PATCH' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-e40cbdc4-2f7c-440e-9012-c293db659ba3' '-H' 'Content-Type: application/json' '-d' '{"equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation"}'
 ```
 
 ```http
@@ -84,7 +84,7 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 Content-Length: 290
 
-{"id":"bk-a07144dc-6241-4e7f-886f-19056a4a251e","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation","createdAt":"2026-10-06T07:26:56.831Z","updatedAt":"2026-10-06T07:26:59.195Z"}
+{"id":"bk-e40cbdc4-2f7c-440e-9012-c293db659ba3","equipmentId":"eq-1","borrowerName":"Somchai Jaidee","startAt":"2026-10-20T12:00:00.000Z","endAt":"2026-10-20T14:00:00.000Z","purpose":"Updated class presentation","createdAt":"2026-10-06T07:51:21.829Z","updatedAt":"2026-10-06T07:51:24.142Z"}
 
 ```
 
@@ -118,7 +118,7 @@ HTTP/1.1 409 Conflict
 Content-Type: application/json
 Content-Length: 115
 
-{"error":"Equipment 'eq-1' is already booked in this time range (booking bk-a07144dc-6241-4e7f-886f-19056a4a251e)"}
+{"error":"Equipment 'eq-1' is already booked in this time range (booking bk-e40cbdc4-2f7c-440e-9012-c293db659ba3)"}
 
 ```
 
@@ -152,7 +152,7 @@ HTTP/1.1 201 Created
 Content-Type: application/json
 Content-Length: 275
 
-{"id":"bk-58fd8b81-ab3e-48fb-bdc2-02d5a3a4de4e","equipmentId":"eq-1","borrowerName":"Suda Dee","startAt":"2026-10-20T14:00:00.000Z","endAt":"2026-10-20T15:00:00.000Z","purpose":"Back-to-back test","createdAt":"2026-10-06T07:27:02.817Z","updatedAt":"2026-10-06T07:27:02.817Z"}
+{"id":"bk-4b89b419-433d-4275-9297-0721951aac2e","equipmentId":"eq-1","borrowerName":"Suda Dee","startAt":"2026-10-20T14:00:00.000Z","endAt":"2026-10-20T15:00:00.000Z","purpose":"Back-to-back test","createdAt":"2026-10-06T07:51:27.867Z","updatedAt":"2026-10-06T07:51:27.867Z"}
 
 ```
 
@@ -161,7 +161,7 @@ Content-Length: 275
 Expected `409`, got `409` → **PASS**
 
 ```bash
-curl -i '-X' 'PATCH' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-58fd8b81-ab3e-48fb-bdc2-02d5a3a4de4e' '-H' 'Content-Type: application/json' '-d' '{"startAt":"2026-10-20T13:00:00.000Z"}'
+curl -i '-X' 'PATCH' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-4b89b419-433d-4275-9297-0721951aac2e' '-H' 'Content-Type: application/json' '-d' '{"startAt":"2026-10-20T13:00:00.000Z"}'
 ```
 
 ```http
@@ -169,7 +169,7 @@ HTTP/1.1 409 Conflict
 Content-Type: application/json
 Content-Length: 115
 
-{"error":"Equipment 'eq-1' is already booked in this time range (booking bk-a07144dc-6241-4e7f-886f-19056a4a251e)"}
+{"error":"Equipment 'eq-1' is already booked in this time range (booking bk-e40cbdc4-2f7c-440e-9012-c293db659ba3)"}
 
 ```
 
@@ -263,7 +263,7 @@ Content-Length: 29
 Expected `204`, got `204` → **PASS**
 
 ```bash
-curl -i '-X' 'DELETE' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-a07144dc-6241-4e7f-886f-19056a4a251e'
+curl -i '-X' 'DELETE' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-e40cbdc4-2f7c-440e-9012-c293db659ba3'
 ```
 
 ```http
@@ -277,7 +277,7 @@ HTTP/1.1 204 No Content
 Expected `404`, got `404` → **PASS**
 
 ```bash
-curl -i '-X' 'DELETE' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-a07144dc-6241-4e7f-886f-19056a4a251e'
+curl -i '-X' 'DELETE' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-e40cbdc4-2f7c-440e-9012-c293db659ba3'
 ```
 
 ```http
@@ -294,7 +294,7 @@ Content-Length: 29
 Expected `204`, got `204` → **PASS**
 
 ```bash
-curl -i '-X' 'DELETE' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-58fd8b81-ab3e-48fb-bdc2-02d5a3a4de4e'
+curl -i '-X' 'DELETE' 'https://equipment-booking-api.nitiphumhon.workers.dev/api/bookings/bk-4b89b419-433d-4275-9297-0721951aac2e'
 ```
 
 ```http
